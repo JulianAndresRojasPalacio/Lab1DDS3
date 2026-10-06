@@ -16,6 +16,7 @@ public class Stadium implements BattleListener
     private JPanel player1;
     private JPanel player2;
     private JPanel logs;
+    private JLabel titulo;
     private JLabel fotoplayerp1;
     private JLabel fotoplayer2;
     private JTextField nombrep1;
@@ -37,7 +38,7 @@ public class Stadium implements BattleListener
     private Card pokemon1;
     private Card pokemon2;
 
-    // ---- Colores (los "estilos") ----
+    // ---- Colores ----
     private static final Color FONDO = new Color(25, 26, 28);
     private static final Color CAMPO = new Color(40, 42, 46);
     private static final Color AMARILLO = new Color(255, 203, 5);
@@ -117,6 +118,7 @@ public class Stadium implements BattleListener
             fotoplayerp1.setIcon(sprite);
             fotoplayerp1.setText(sprite == null ? "sin imagen" : "");
             reiniciarBarra(hpP1, card);
+            estilizarPanel(player1, "PLAYER 1", colorPorTipo(card.getTipo()));
         }
         else
         {
@@ -126,6 +128,7 @@ public class Stadium implements BattleListener
             fotoplayer2.setIcon(sprite);
             fotoplayer2.setText(sprite == null ? "sin imagen" : "");
             reiniciarBarra(hpP2, card);
+            estilizarPanel(player2, "PLAYER 2", colorPorTipo(card.getTipo()));
         }
 
         logscombat.append("Jugador " + jugador + " cargo a " + card.getNombre() + "\n");
@@ -235,7 +238,7 @@ public class Stadium implements BattleListener
     private void actualizarBarra(JProgressBar barra, int hpActual)
     {
         barra.setValue(hpActual);
-        barra.setString(hpActual + " / " + barra.getMaximum());
+        barra.setString("HP " + hpActual + " / " + barra.getMaximum());
 
         //Verde, naranja o rojo segun el porcentaje de vida
         double porcentaje = (double) hpActual / barra.getMaximum();
@@ -258,20 +261,33 @@ public class Stadium implements BattleListener
     private void aplicarEstilos()
     {
         mainPanel.setBackground(FONDO);
-        estilizarPanel(player1, "PLAYER 1");
-        estilizarPanel(player2, "PLAYER 2");
-        estilizarPanel(logs, null);
+        estilizarPanel(player1, "PLAYER 1", AMARILLO);
+        estilizarPanel(player2, "PLAYER 2", AMARILLO);
+        estilizarPanel(logs, null, AMARILLO);
+
+        //Titulo (solo si le pusiste field name "titulo" en el form)
+        if (titulo != null)
+        {
+            titulo.setForeground(AMARILLO);
+            titulo.setFont(new Font("Monospaced", Font.BOLD, 26));
+            titulo.setHorizontalAlignment(SwingConstants.CENTER);
+        }
 
         for (JLabel foto : new JLabel[]{fotoplayerp1, fotoplayer2})
         {
             foto.setHorizontalAlignment(SwingConstants.CENTER);
             foto.setForeground(Color.GRAY);
+            foto.setPreferredSize(new Dimension(160, 160));
         }
 
         estilizarCampo(nombrep1, true);
         estilizarCampo(nombrep2, true);
         estilizarCampo(statsp1, false);
         estilizarCampo(statsp2, false);
+        nombrep1.setHorizontalAlignment(JTextField.CENTER);
+        nombrep2.setHorizontalAlignment(JTextField.CENTER);
+        statsp1.setHorizontalAlignment(JTextField.CENTER);
+        statsp2.setHorizontalAlignment(JTextField.CENTER);
 
         //Titulo del log
         estilizarCampo(BATTLELOG, false);
@@ -288,6 +304,7 @@ public class Stadium implements BattleListener
         for (JProgressBar barra : new JProgressBar[]{hpP1, hpP2})
         {
             barra.setStringPainted(true);
+            barra.setString("HP");
             barra.setBackground(CAMPO);
             barra.setForeground(VERDE);
             barra.setBorder(BorderFactory.createLineBorder(AMARILLO));
@@ -301,23 +318,23 @@ public class Stadium implements BattleListener
         logscombat.setWrapStyleWord(true);
     }
 
-    private void estilizarPanel(JPanel panel, String titulo)
+    private void estilizarPanel(JPanel panel, String titulo, Color color)
     {
         panel.setBackground(FONDO);
 
         if (titulo != null)
         {
             panel.setBorder(BorderFactory.createTitledBorder(
-                    BorderFactory.createLineBorder(AMARILLO, 2),
+                    BorderFactory.createLineBorder(color, 2),
                     titulo,
                     TitledBorder.CENTER,
                     TitledBorder.TOP,
                     new Font("Monospaced", Font.BOLD, 14),
-                    AMARILLO));
+                    color));
         }
         else
         {
-            panel.setBorder(BorderFactory.createLineBorder(AMARILLO, 2));
+            panel.setBorder(BorderFactory.createLineBorder(color, 2));
         }
     }
 
@@ -339,5 +356,30 @@ public class Stadium implements BattleListener
         boton.setFocusPainted(false);
         boton.setOpaque(true);
         boton.setBorderPainted(false);
+    }
+
+    //Color del panel segun el primer tipo del pokemon
+    private Color colorPorTipo(String tipo)
+    {
+        if (tipo.equals("fire")) { return new Color(240, 128, 48); }
+        if (tipo.equals("water")) { return new Color(104, 144, 240); }
+        if (tipo.equals("grass")) { return new Color(120, 200, 80); }
+        if (tipo.equals("electric")) { return new Color(248, 208, 48); }
+        if (tipo.equals("psychic")) { return new Color(248, 88, 136); }
+        if (tipo.equals("ice")) { return new Color(152, 216, 216); }
+        if (tipo.equals("fighting")) { return new Color(192, 48, 40); }
+        if (tipo.equals("poison")) { return new Color(160, 64, 160); }
+        if (tipo.equals("ground")) { return new Color(224, 192, 104); }
+        if (tipo.equals("flying")) { return new Color(168, 144, 240); }
+        if (tipo.equals("bug")) { return new Color(168, 184, 32); }
+        if (tipo.equals("rock")) { return new Color(184, 160, 56); }
+        if (tipo.equals("ghost")) { return new Color(112, 88, 152); }
+        if (tipo.equals("dragon")) { return new Color(112, 56, 248); }
+        if (tipo.equals("dark")) { return new Color(112, 88, 72); }
+        if (tipo.equals("steel")) { return new Color(184, 184, 208); }
+        if (tipo.equals("fairy")) { return new Color(238, 153, 172); }
+        if (tipo.equals("normal")) { return new Color(168, 168, 120); }
+
+        return AMARILLO;
     }
 }

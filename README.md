@@ -1,5 +1,11 @@
 # Pokémon Stadium Lite
 
+Codigos y nombres:
+
+Julian Andres Rojas Palacio 2459687-3743
+Juan Manuel Perez Cruz 2266033-3743
+
+
 Mini-aplicación de escritorio en **Java Swing** que simula un combate por turnos entre dos Pokémon obtenidos en vivo desde [PokeAPI](https://pokeapi.co/).
 
 Materia: Desarrollo de Software III, Universidad del Valle, Sede Tuluá.
@@ -44,8 +50,14 @@ Las consultas a la API, la descarga de imágenes y el combate se ejecutan en hil
 
 ## Capturas de pantalla
 
-### Pokémon cargados
+### Pokémon cargados 1
 ![Pokémon cargados](capturas/cargados.png)
 
-### Combate finalizado
+### Combate finalizado 1
 ![Combate finalizado](capturas/combate.png)
+
+### Pokémon cargados 2
+![Pokémon cargados](capturas/cargados2.png)
+
+### Combate finalizado 2
+![Combate finalizado](capturas/combate2.png)
